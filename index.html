@@ -526,6 +526,35 @@ a { color: var(--color-primary); }
 
 .progress-wrap { margin-bottom: 40px; }
 
+.progress-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.progress-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border);
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-gray-mid);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.progress-back:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-softer);
+}
+.progress-back svg { width: 14px; height: 14px; }
+.progress-back.hidden { visibility: hidden; pointer-events: none; }
+
 .progress-track {
   height: 3px;
   background: var(--color-border);
@@ -542,7 +571,6 @@ a { color: var(--color-primary); }
 }
 
 .progress-label {
-  margin-top: 14px;
   font-size: 12px;
   color: var(--color-gray-light);
   letter-spacing: 0.1em;
@@ -854,6 +882,50 @@ a { color: var(--color-primary); }
 
 .submit-wrap { margin-top: 24px; }
 
+.field textarea {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  outline: none;
+  resize: vertical;
+  min-height: 130px;
+  line-height: 1.6;
+}
+.field textarea::placeholder { color: var(--color-gray-soft); font-weight: 400; }
+.field textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(1,72,152,0.15);
+}
+
+.btn-skip {
+  display: block;
+  width: 100%;
+  padding: 15px 28px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-gray-mid);
+  letter-spacing: 0.02em;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+.btn-skip:hover {
+  background: var(--color-bg-soft);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
 .submit-note {
   text-align: center;
   font-size: 12px;
@@ -1047,10 +1119,17 @@ a { color: var(--color-primary); }
 <section class="form-section" id="form">
   <div class="form-card">
     <div class="progress-wrap" id="progressWrap">
-      <div class="progress-track" aria-hidden="true">
-        <div class="progress-fill" id="progressFill" style="width: 25%;"></div>
+      <div class="progress-header">
+        <button type="button" class="progress-back hidden" id="progressBackBtn" aria-label="Zurück">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="progress-label" id="progressLabel">Schritt 1 von 5</div>
       </div>
-      <div class="progress-label" id="progressLabel">Schritt 1 von 5</div>
+      <div class="progress-track" aria-hidden="true">
+        <div class="progress-fill" id="progressFill" style="width: 20%;"></div>
+      </div>
     </div>
 
     <form id="applicationForm" novalidate>
@@ -1174,9 +1253,21 @@ a { color: var(--color-primary); }
         <div class="submit-wrap">
           <div class="nav-buttons">
             <button type="button" class="btn btn-ghost btn-back" data-back="4">← Zurück</button>
-            <button type="submit" class="btn btn-primary btn-next btn-large" id="submitBtn">Jetzt bewerben ✓</button>
+            <button type="button" class="btn btn-primary btn-next btn-large" id="validateContactBtn">Weiter →</button>
           </div>
-          <p class="submit-note">Kostenlos &amp; unverbindlich · Deine Angaben werden vertraulich behandelt.</p>
+        </div>
+      </div>
+
+      <div class="step" data-step="5">
+        <h2 class="step-title">Möchtest du uns noch etwas mitteilen?</h2>
+        <p class="step-sublabel">Optional — du kannst diesen Schritt auch überspringen.</p>
+        <div class="field">
+          <textarea id="optional-message" name="optional" placeholder="z.B. Besondere Erfahrungen oder Zertifikate. Wann könntest du frühestens starten?"></textarea>
+        </div>
+        <div class="submit-wrap">
+          <button type="button" class="btn btn-primary btn-full btn-large" id="btnSubmitFinal">Bewerbung absenden ✓</button>
+          <button type="button" class="btn-skip" id="btnSkipFinal">Überspringen &amp; absenden</button>
+          <p class="submit-note">Deine Angaben werden vertraulich behandelt und nur für den Bewerbungsprozess verwendet.</p>
         </div>
       </div>
 
@@ -1209,7 +1300,7 @@ a { color: var(--color-primary); }
 (function() {
   'use strict';
 
-  var TOTAL_STEPS = 4;
+  var TOTAL_STEPS = 5;
 
   var state = {
     currentStep: 1,
@@ -1217,7 +1308,8 @@ a { color: var(--color-primary); }
       ausbildung: null,
       situation: null,
       priorities: [],
-      kontakt: { vorname: "", nachname: "", telefon: "", email: "" }
+      kontakt: { vorname: "", nachname: "", telefon: "", email: "" },
+      optionalMessage: ""
     }
   };
 
@@ -1231,10 +1323,22 @@ a { color: var(--color-primary); }
   var form = $('#applicationForm');
   var step3Hint = $('#step3Hint');
 
+  var progressBackBtn = $('#progressBackBtn');
+
   function updateProgress() {
     var pct = (state.currentStep / TOTAL_STEPS) * 100;
     progressFill.style.width = pct + '%';
     progressLabel.textContent = 'Schritt ' + state.currentStep + ' von ' + TOTAL_STEPS;
+    if (progressBackBtn) {
+      if (state.currentStep > 1) progressBackBtn.classList.remove('hidden');
+      else progressBackBtn.classList.add('hidden');
+    }
+  }
+
+  if (progressBackBtn) {
+    progressBackBtn.addEventListener('click', function() {
+      if (state.currentStep > 1) goToStep(state.currentStep - 1);
+    });
   }
 
   function smoothScrollTo(el, offset) {
@@ -1387,31 +1491,13 @@ a { color: var(--color-primary); }
     });
   }
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    var valid = true;
-    ['vorname', 'nachname', 'telefon', 'email'].forEach(function(id) {
-      if (!validateField(id)) valid = false;
-    });
-
-    if (!consent.checked) {
-      consentErr.classList.add('visible');
-      valid = false;
-    } else {
-      consentErr.classList.remove('visible');
-    }
-
-    if (!valid) {
-      var firstErr = document.querySelector('.field input.error, .consent-error.visible');
-      if (firstErr) smoothScrollTo(firstErr, 120);
-      return;
-    }
-
+  function doSubmit() {
     state.answers.kontakt.vorname = $('#vorname').value.trim();
     state.answers.kontakt.nachname = $('#nachname').value.trim();
     state.answers.kontakt.telefon = $('#telefon').value.trim();
     state.answers.kontakt.email = $('#email').value.trim();
+    var optField = $('#optional-message');
+    state.answers.optionalMessage = optField ? optField.value.trim() : '';
 
     var payload = {
       ausbildung: state.answers.ausbildung,
@@ -1423,6 +1509,7 @@ a { color: var(--color-primary); }
         telefon: state.answers.kontakt.telefon,
         email: state.answers.kontakt.email
       },
+      optionalMessage: state.answers.optionalMessage,
       submittedAt: new Date().toISOString()
     };
 
@@ -1437,7 +1524,44 @@ a { color: var(--color-primary); }
 
     var card = $('.form-card');
     if (card) smoothScrollTo(card, 40);
-  });
+  }
+
+  function validateContact() {
+    var valid = true;
+    ['vorname', 'nachname', 'telefon', 'email'].forEach(function(id) {
+      if (!validateField(id)) valid = false;
+    });
+    if (!consent.checked) {
+      consentErr.classList.add('visible');
+      valid = false;
+    } else {
+      consentErr.classList.remove('visible');
+    }
+    if (!valid) {
+      var firstErr = document.querySelector('.field input.error, .consent-error.visible');
+      if (firstErr) smoothScrollTo(firstErr, 120);
+    }
+    return valid;
+  }
+
+  var validateContactBtn = $('#validateContactBtn');
+  if (validateContactBtn) {
+    validateContactBtn.addEventListener('click', function() {
+      if (validateContact()) goToStep(5);
+    });
+  }
+
+  var btnSubmitFinal = $('#btnSubmitFinal');
+  if (btnSubmitFinal) {
+    btnSubmitFinal.addEventListener('click', doSubmit);
+  }
+
+  var btnSkipFinal = $('#btnSkipFinal');
+  if (btnSkipFinal) {
+    btnSkipFinal.addEventListener('click', doSubmit);
+  }
+
+  form.addEventListener('submit', function(e) { e.preventDefault(); });
 
   updateProgress();
 })();
