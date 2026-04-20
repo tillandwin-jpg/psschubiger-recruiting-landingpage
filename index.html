@@ -1491,6 +1491,25 @@ a { color: var(--color-primary); }
     });
   }
 
+  var WEBHOOK_URL = 'https://hook.eu1.make.com/81v5a5lwm55ch9db61l7l7jw89wg50xq';
+
+  function calcBewertung(ausbildung, situation) {
+    if (ausbildung === 'nein') return 'Ungeeignet';
+    if (ausbildung === 'ja') {
+      if (situation === 'zeichner' || situation === 'architekt' || situation === 'techniker') return 'Geeignet';
+      return 'Prüfen';
+    }
+    return 'Prüfen';
+  }
+
+  function showSuccess() {
+    $$('.step').forEach(function(el) { el.classList.remove('active'); });
+    if (progressWrap) progressWrap.style.display = 'none';
+    successState.classList.add('active');
+    var card = $('.form-card');
+    if (card) smoothScrollTo(card, 40);
+  }
+
   function doSubmit() {
     state.answers.kontakt.vorname = $('#vorname').value.trim();
     state.answers.kontakt.nachname = $('#nachname').value.trim();
@@ -1499,31 +1518,42 @@ a { color: var(--color-primary); }
     var optField = $('#optional-message');
     state.answers.optionalMessage = optField ? optField.value.trim() : '';
 
+    var bewertung = calcBewertung(state.answers.ausbildung, state.answers.situation);
+
+    var situationLabels = {
+      zeichner: 'Zeichner:in',
+      architekt: 'Architekt:in',
+      techniker: 'Techniker:in',
+      einsteiger: 'Berufseinsteiger:in',
+      wechsel: 'Branchenwechsel'
+    };
+
     var payload = {
-      ausbildung: state.answers.ausbildung,
-      situation: state.answers.situation,
-      priorities: state.answers.priorities.slice(),
-      kontakt: {
-        vorname: state.answers.kontakt.vorname,
-        nachname: state.answers.kontakt.nachname,
-        telefon: state.answers.kontakt.telefon,
-        email: state.answers.kontakt.email
-      },
+      name: state.answers.kontakt.vorname + ' ' + state.answers.kontakt.nachname,
+      vorname: state.answers.kontakt.vorname,
+      nachname: state.answers.kontakt.nachname,
+      email: state.answers.kontakt.email,
+      telefon: state.answers.kontakt.telefon,
+      ausbildung: state.answers.ausbildung === 'ja' ? 'Ja' : 'Nein',
+      situation: situationLabels[state.answers.situation] || state.answers.situation || '',
+      prioritaeten: state.answers.priorities.join(', '),
       optionalMessage: state.answers.optionalMessage,
+      bewertung: bewertung,
       submittedAt: new Date().toISOString()
     };
 
     try { localStorage.setItem('ps_schubiger_application', JSON.stringify(payload)); }
-    catch (err) { /* storage unavailable */ }
+    catch (e) { /* storage unavailable */ }
 
-    console.log('[PS Schubiger Bewerbung] New application received:', payload);
+    showSuccess();
 
-    $$('.step').forEach(function(el) { el.classList.remove('active'); });
-    if (progressWrap) progressWrap.style.display = 'none';
-    successState.classList.add('active');
-
-    var card = $('.form-card');
-    if (card) smoothScrollTo(card, 40);
+    fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(function(err) {
+      console.warn('[PS Schubiger] Webhook error:', err);
+    });
   }
 
   function validateContact() {
