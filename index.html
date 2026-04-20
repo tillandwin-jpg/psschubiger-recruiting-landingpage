@@ -1528,6 +1528,13 @@ a { color: var(--color-primary); }
       wechsel: 'Branchenwechsel'
     };
 
+    var priorityLabels = {
+      selbststaendig: 'Selbstständiges Arbeiten',
+      team: 'Team und Zusammenarbeit',
+      weiterbildung: 'Weiterbildung und Entwicklung',
+      abwechslung: 'Abwechslungsreiche Aufgaben'
+    };
+
     var payload = {
       name: state.answers.kontakt.vorname + ' ' + state.answers.kontakt.nachname,
       vorname: state.answers.kontakt.vorname,
@@ -1536,7 +1543,7 @@ a { color: var(--color-primary); }
       telefon: state.answers.kontakt.telefon,
       ausbildung: state.answers.ausbildung === 'ja' ? 'Ja' : 'Nein',
       situation: situationLabels[state.answers.situation] || state.answers.situation || '',
-      prioritaeten: state.answers.priorities.join(', '),
+      prioritaeten: state.answers.priorities.map(function(p) { return priorityLabels[p] || p; }).join(', '),
       optionalMessage: state.answers.optionalMessage,
       bewertung: bewertung,
       submittedAt: new Date().toISOString()
