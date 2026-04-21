@@ -272,61 +272,19 @@ a { color: var(--color-primary); }
 
 @media (min-width: 768px) {
   .hero-perks { margin-bottom: 40px; }
+  .hero-perks-grid span { font-size: 14px; padding: 8px 18px; }
 }
 
-/* Perks Ticker */
-.hero-perks-ticker-wrap {
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
-          mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
-  padding: 4px 0;
+/* Perks scroll-reveal */
+.hero-perks-grid span {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
 }
 
-.hero-perks-ticker-track {
-  display: flex;
-  gap: 10px;
-  width: max-content;
-  animation: tickerScroll 32s linear infinite;
-}
-
-.hero-perks-ticker-wrap:hover .hero-perks-ticker-track {
-  animation-play-state: paused;
-}
-
-@keyframes tickerScroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-.hpt-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--color-dark);
-  padding: 7px 16px;
-  background: rgba(255,255,255,0.78);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid var(--color-border);
-  border-radius: 100px;
-  white-space: nowrap;
-  flex-shrink: 0;
-  letter-spacing: 0.01em;
-}
-
-.hpt-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  flex-shrink: 0;
-  opacity: 0.7;
-}
-
-@media (min-width: 768px) {
-  .hpt-item { font-size: 14px; padding: 8px 18px; }
+.hero-perks-grid span.perk-revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* hero-tasks — dynamic task display */
@@ -1216,26 +1174,15 @@ a { color: var(--color-primary); }
     <p class="hero-sub">Zeichner:in / Techniker:in / Architekt:in 80–100%</p>
     <div class="hero-perks">
       <p class="hero-perks-label">Was dich bei uns erwartet</p>
-      <div class="hero-perks-ticker-wrap">
-        <div class="hero-perks-ticker-track" aria-hidden="false">
-          <span class="hpt-item"><span class="hpt-dot"></span>Entwicklungsmöglichkeiten</span>
-          <span class="hpt-item"><span class="hpt-dot"></span>Spannende Projekte</span>
-          <span class="hpt-item"><span class="hpt-dot"></span>5 Wochen Ferien</span>
-          <span class="hpt-item"><span class="hpt-dot"></span>Kollegiales Team</span>
-          <span class="hpt-item"><span class="hpt-dot"></span>Bezahlte Pause (30 Min. pro Tag)</span>
-          <span class="hpt-item"><span class="hpt-dot"></span>Gleitende Arbeitszeiten</span>
-          <span class="hpt-item"><span class="hpt-dot"></span>Flache Hierarchien</span>
-          <span class="hpt-item"><span class="hpt-dot"></span>Gemeinsame Anlässe</span>
-          <!-- Duplikat für nahtlose Schleife -->
-          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>Entwicklungsmöglichkeiten</span>
-          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>Spannende Projekte</span>
-          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>5 Wochen Ferien</span>
-          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>Kollegiales Team</span>
-          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>Bezahlte Pause (30 Min. pro Tag)</span>
-          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>Gleitende Arbeitszeiten</span>
-          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>Flache Hierarchien</span>
-          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>Gemeinsame Anlässe</span>
-        </div>
+      <div class="hero-perks-grid" id="perksGrid">
+        <span>Entwicklungsmöglichkeiten</span>
+        <span>Spannende Projekte</span>
+        <span>5 Wochen Ferien</span>
+        <span>Kollegiales Team</span>
+        <span>Bezahlte Pause (30 Min. pro Tag)</span>
+        <span>Gleitende Arbeitszeiten</span>
+        <span>Flache Hierarchien</span>
+        <span>Gemeinsame Anlässe</span>
       </div>
     </div>
 
@@ -1854,6 +1801,28 @@ a { color: var(--color-primary); }
   form.addEventListener('submit', function(e) { e.preventDefault(); });
 
   updateProgress();
+})();
+
+/* Perks scroll-reveal */
+(function() {
+  var grid = document.getElementById('perksGrid');
+  if (!grid) return;
+  var pills = grid.querySelectorAll('span');
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    pills.forEach(function(p) { p.classList.add('perk-revealed'); });
+    return;
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    if (!entries[0].isIntersecting) return;
+    pills.forEach(function(p, i) {
+      setTimeout(function() { p.classList.add('perk-revealed'); }, i * 80);
+    });
+    observer.disconnect();
+  }, { threshold: 0.2 });
+
+  observer.observe(grid);
 })();
 
 /* Dein Aufgabenbereich — fade rotation */
