@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Werde Teil unseres Teams — PS Planungsbüro Schubiger AG</title>
 <meta name="description" content="Bewirb dich in 2 Minuten als Zeichner:in, Techniker:in oder Architekt:in bei PS Planungsbüro Schubiger AG in Uznach.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --color-primary: #014898;
@@ -25,8 +28,8 @@
   --color-error: #C0392B;
   --color-success: #14A37F;
 
-  --font-display: 'Century Gothic', 'CenturyGothic', 'AppleGothic', 'URW Gothic', 'Futura', 'Trebuchet MS', sans-serif;
-  --font-sans: 'Century Gothic', 'CenturyGothic', 'AppleGothic', 'URW Gothic', 'Futura', 'Trebuchet MS', sans-serif;
+  --font-display: 'Jost', 'Century Gothic', 'CenturyGothic', 'AppleGothic', sans-serif;
+  --font-sans: 'Jost', 'Century Gothic', 'CenturyGothic', 'AppleGothic', sans-serif;
 
   --shadow-xs: 0 1px 2px rgba(0,0,0,0.03);
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
@@ -269,7 +272,61 @@ a { color: var(--color-primary); }
 
 @media (min-width: 768px) {
   .hero-perks { margin-bottom: 40px; }
-  .hero-perks-grid span { font-size: 14px; padding: 8px 18px; }
+}
+
+/* Perks Ticker */
+.hero-perks-ticker-wrap {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  padding: 4px 0;
+}
+
+.hero-perks-ticker-track {
+  display: flex;
+  gap: 10px;
+  width: max-content;
+  animation: tickerScroll 32s linear infinite;
+}
+
+.hero-perks-ticker-wrap:hover .hero-perks-ticker-track {
+  animation-play-state: paused;
+}
+
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.hpt-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-dark);
+  padding: 7px 16px;
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--color-border);
+  border-radius: 100px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.01em;
+}
+
+.hpt-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+@media (min-width: 768px) {
+  .hpt-item { font-size: 14px; padding: 8px 18px; }
 }
 
 /* hero-tasks — dynamic task display */
@@ -1159,15 +1216,26 @@ a { color: var(--color-primary); }
     <p class="hero-sub">Zeichner:in / Techniker:in / Architekt:in 80–100%</p>
     <div class="hero-perks">
       <p class="hero-perks-label">Was dich bei uns erwartet</p>
-      <div class="hero-perks-grid">
-        <span>Entwicklungsmöglichkeiten</span>
-        <span>Spannende Projekte</span>
-        <span>5 Wochen Ferien</span>
-        <span>Kollegiales Team</span>
-        <span>Bezahlte Pause (30 Min. pro Tag)</span>
-        <span>Gleitende Arbeitszeiten</span>
-        <span>Flache Hierarchien</span>
-        <span>Gemeinsame Anlässe</span>
+      <div class="hero-perks-ticker-wrap">
+        <div class="hero-perks-ticker-track" aria-hidden="false">
+          <span class="hpt-item"><span class="hpt-dot"></span>Entwicklungsmöglichkeiten</span>
+          <span class="hpt-item"><span class="hpt-dot"></span>Spannende Projekte</span>
+          <span class="hpt-item"><span class="hpt-dot"></span>5 Wochen Ferien</span>
+          <span class="hpt-item"><span class="hpt-dot"></span>Kollegiales Team</span>
+          <span class="hpt-item"><span class="hpt-dot"></span>Bezahlte Pause (30 Min. pro Tag)</span>
+          <span class="hpt-item"><span class="hpt-dot"></span>Gleitende Arbeitszeiten</span>
+          <span class="hpt-item"><span class="hpt-dot"></span>Flache Hierarchien</span>
+          <span class="hpt-item"><span class="hpt-dot"></span>Gemeinsame Anlässe</span>
+          <!-- Duplikat für nahtlose Schleife -->
+          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>Entwicklungsmöglichkeiten</span>
+          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>Spannende Projekte</span>
+          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>5 Wochen Ferien</span>
+          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>Kollegiales Team</span>
+          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>Bezahlte Pause (30 Min. pro Tag)</span>
+          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>Gleitende Arbeitszeiten</span>
+          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>Flache Hierarchien</span>
+          <span class="hpt-item" aria-hidden="true"><span class="hpt-dot"></span>Gemeinsame Anlässe</span>
+        </div>
       </div>
     </div>
 
@@ -1813,17 +1881,15 @@ a { color: var(--color-primary); }
   }
 
   function showTask() {
-    el.textContent = tasks[idx];
-    setDot(idx);
     el.style.transition = 'none';
     el.style.opacity = '0';
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        el.style.transition = 'opacity ' + (FADE_MS / 1000) + 's ease';
-        el.style.opacity = '1';
-        setTimeout(fadeOut, HOLD_MS);
-      });
-    });
+    el.textContent = tasks[idx];
+    setDot(idx);
+    setTimeout(function() {
+      el.style.transition = 'opacity ' + (FADE_MS / 1000) + 's ease';
+      el.style.opacity = '1';
+      setTimeout(fadeOut, HOLD_MS);
+    }, 60);
   }
 
   function fadeOut() {
@@ -1832,7 +1898,7 @@ a { color: var(--color-primary); }
     setTimeout(function() {
       idx = (idx + 1) % tasks.length;
       showTask();
-    }, FADE_MS);
+    }, FADE_MS + 80);
   }
 
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
