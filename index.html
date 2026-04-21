@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Werde Teil unseres Teams — PS Planungsbüro Schubiger AG</title>
 <meta name="description" content="Bewirb dich in 2 Minuten als Zeichner:in, Techniker:in oder Architekt:in bei PS Planungsbüro Schubiger AG in Uznach.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
 <style>
 :root {
   --color-primary: #014898;
@@ -28,8 +25,8 @@
   --color-error: #C0392B;
   --color-success: #14A37F;
 
-  --font-display: 'Fraunces', Georgia, serif;
-  --font-sans: 'Jost', -apple-system, BlinkMacSystemFont, 'Century Gothic', 'Segoe UI', Arial, sans-serif;
+  --font-display: 'Century Gothic', 'CenturyGothic', 'AppleGothic', 'URW Gothic', 'Futura', 'Trebuchet MS', sans-serif;
+  --font-sans: 'Century Gothic', 'CenturyGothic', 'AppleGothic', 'URW Gothic', 'Futura', 'Trebuchet MS', sans-serif;
 
   --shadow-xs: 0 1px 2px rgba(0,0,0,0.03);
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
@@ -185,16 +182,18 @@ a { color: var(--color-primary); }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 25%;
+  object-position: 38% 25%;
   display: block;
 }
 
 @media (min-width: 600px) {
   .hero-team { aspect-ratio: 16 / 7; border-radius: 18px; }
+  .hero-team img { object-position: 42% 25%; }
 }
 
 @media (min-width: 768px) {
   .hero-team { aspect-ratio: 21 / 9; border-radius: var(--radius-lg); margin-bottom: 40px; border-width: 4px; }
+  .hero-team img { object-position: center 25%; }
 }
 
 .hero-title {
@@ -271,6 +270,82 @@ a { color: var(--color-primary); }
 @media (min-width: 768px) {
   .hero-perks { margin-bottom: 40px; }
   .hero-perks-grid span { font-size: 14px; padding: 8px 18px; }
+}
+
+/* hero-tasks — dynamic task display */
+.hero-tasks {
+  margin: 0 auto 36px;
+  max-width: 640px;
+  padding: 18px 20px;
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+}
+
+.hero-tasks-label {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.hero-tasks-display {
+  min-height: 72px;
+  font-size: 14px;
+  color: var(--color-dark);
+  line-height: 1.55;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 6px;
+}
+
+.hero-task-text { white-space: pre-wrap; }
+
+.hero-task-cursor {
+  display: inline-block;
+  margin-left: 2px;
+  color: var(--color-primary);
+  font-weight: 300;
+  animation: cursor-blink 1s steps(2, end) infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.hero-task-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 14px;
+}
+
+.htd {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-gray-soft);
+  transition: background 0.4s ease, transform 0.4s ease;
+}
+
+.htd-active {
+  background: var(--color-primary);
+  transform: scale(1.25);
+}
+
+@media (min-width: 768px) {
+  .hero-tasks { margin-bottom: 44px; padding: 24px 32px; }
+  .hero-tasks-display { font-size: 17px; min-height: 68px; }
 }
 
 /* claim section — between hero and form */
@@ -1081,7 +1156,7 @@ a { color: var(--color-primary); }
       <img src="assets/team.jpg" alt="Das Team der PS Planungsbüro Schubiger AG" loading="eager">
     </div>
     <h1 class="hero-title">Werde Teil <em>unseres</em> Teams.</h1>
-    <p class="hero-sub">Junior Projektleiter:in 100% (w/m/d)</p>
+    <p class="hero-sub">Zeichner:in / Techniker:in / Architekt:in 80–100%</p>
     <div class="hero-perks">
       <p class="hero-perks-label">Was dich bei uns erwartet</p>
       <div class="hero-perks-grid">
@@ -1089,14 +1164,29 @@ a { color: var(--color-primary); }
         <span>Spannende Projekte</span>
         <span>5 Wochen Ferien</span>
         <span>Kollegiales Team</span>
-        <span>Bezahlte Pausen</span>
+        <span>Bezahlte Pause (30 Min. pro Tag)</span>
+        <span>Gleitende Arbeitszeiten</span>
+        <span>Flache Hierarchien</span>
         <span>Gemeinsame Anlässe</span>
       </div>
     </div>
+
+    <div class="hero-tasks">
+      <p class="hero-tasks-label">Dein Aufgabenbereich</p>
+      <div class="hero-tasks-display" aria-live="polite">
+        <span class="hero-task-text" id="heroTaskText"></span>
+      </div>
+      <div class="hero-task-dots" id="heroTaskDots" aria-hidden="true">
+        <span class="htd htd-active"></span>
+        <span class="htd"></span>
+        <span class="htd"></span>
+      </div>
+    </div>
+
     <a href="#form" class="btn btn-primary btn-cta" data-scroll="form">
       <span class="btn-stack">
+        <span class="btn-sub">Interesse?</span>
         <span class="btn-main">Jetzt in 2 Min. bewerben →</span>
-        <span class="btn-sub">schnell &amp; unkompliziert</span>
       </span>
     </a>
   </div>
@@ -1135,17 +1225,25 @@ a { color: var(--color-primary); }
     <form id="applicationForm" novalidate>
 
       <div class="step active" data-step="1">
-        <h2 class="step-title">Hast du eine abgeschlossene Ausbildung als Zeichner:in (EFZ), Techniker:in oder Architekt:in?</h2>
-        <p class="step-sublabel">Wähle eine Option.</p>
-        <div class="options cols-2" role="radiogroup" aria-label="Ausbildung">
-          <div class="option option-center" tabindex="0" role="radio" aria-checked="false" data-value="ja">
-            <span class="option-icon" aria-hidden="true">✓</span>
-            <span>Ja</span>
+        <h2 class="step-title">Was hast du für eine Ausbildung?</h2>
+        <p class="step-sublabel">Mehrfachauswahl möglich — oder nutze das Freitextfeld.</p>
+        <div class="options" role="group" aria-label="Ausbildung">
+          <div class="option" tabindex="0" role="checkbox" aria-checked="false" data-value="zeichner" data-multi="true">
+            <span class="option-icon" aria-hidden="true">✏️</span>
+            <span>Zeichner:in (EFZ)</span>
           </div>
-          <div class="option option-center" tabindex="0" role="radio" aria-checked="false" data-value="nein">
-            <span class="option-icon" aria-hidden="true">✗</span>
-            <span>Nein</span>
+          <div class="option" tabindex="0" role="checkbox" aria-checked="false" data-value="techniker" data-multi="true">
+            <span class="option-icon" aria-hidden="true">⚙️</span>
+            <span>Techniker:in</span>
           </div>
+          <div class="option" tabindex="0" role="checkbox" aria-checked="false" data-value="architekt" data-multi="true">
+            <span class="option-icon" aria-hidden="true">🏠</span>
+            <span>Architekt:in</span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="ausbildung-freitext">Freitext</label>
+          <input type="text" id="ausbildung-freitext" name="ausbildung-freitext" placeholder="z.B. andere Ausbildung, laufende Weiterbildung …">
         </div>
         <div class="nav-row">
           <button type="button" class="btn btn-primary btn-full" data-next="1" disabled>Weiter →</button>
@@ -1154,7 +1252,7 @@ a { color: var(--color-primary); }
 
       <div class="step" data-step="2">
         <h2 class="step-title">Wo stehst du gerade beruflich?</h2>
-        <p class="step-sublabel">Wähle eine Option.</p>
+        <p class="step-sublabel">Wähle eine Option oder nutze das Freitextfeld.</p>
         <div class="options" role="radiogroup" aria-label="Aktuelle Situation">
           <div class="option" tabindex="0" role="radio" aria-checked="false" data-value="zeichner">
             <span class="option-icon" aria-hidden="true">✏️</span>
@@ -1172,10 +1270,10 @@ a { color: var(--color-primary); }
             <span class="option-icon" aria-hidden="true">🎓</span>
             <span>Berufseinsteiger (frisch ab Lehre)</span>
           </div>
-          <div class="option" tabindex="0" role="radio" aria-checked="false" data-value="wechsel">
-            <span class="option-icon" aria-hidden="true">🔄</span>
-            <span>Ich bin in einem anderen Bereich und möchte wechseln</span>
-          </div>
+        </div>
+        <div class="field">
+          <label for="situation-freitext">Anderer Bereich — Freitext</label>
+          <input type="text" id="situation-freitext" name="situation-freitext" placeholder="z.B. aktuelle Tätigkeit oder Branche …">
         </div>
         <div class="nav-row">
           <div class="nav-buttons">
@@ -1187,8 +1285,8 @@ a { color: var(--color-primary); }
 
       <div class="step" data-step="3">
         <h2 class="step-title">Was ist dir bei der Arbeit am wichtigsten?</h2>
-        <p class="step-sublabel">Wähle genau 2 aus.</p>
-        <div class="options cols-2" role="group" aria-label="Prioritäten — zwei auswählen">
+        <p class="step-sublabel">Mehrfachauswahl möglich — ergänze gerne im Freitextfeld.</p>
+        <div class="options cols-2" role="group" aria-label="Prioritäten">
           <div class="option" tabindex="0" role="checkbox" aria-checked="false" data-value="selbststaendig" data-multi="true">
             <span class="option-icon" aria-hidden="true">🧍</span>
             <span>Selbstständig arbeiten können</span>
@@ -1206,12 +1304,16 @@ a { color: var(--color-primary); }
             <span>Abwechslungsreiche Aufgaben</span>
           </div>
         </div>
+        <div class="field">
+          <label for="prioritaeten-freitext">Freitext</label>
+          <input type="text" id="prioritaeten-freitext" name="prioritaeten-freitext" placeholder="Was ist dir sonst noch wichtig?">
+        </div>
         <div class="nav-row">
           <div class="nav-buttons">
             <button type="button" class="btn btn-ghost btn-back" data-back="3">← Zurück</button>
-            <button type="button" class="btn btn-primary btn-next" data-next="3" disabled title="Bitte wähle genau 2 aus.">Weiter →</button>
+            <button type="button" class="btn btn-primary btn-next" data-next="3" disabled>Weiter →</button>
           </div>
-          <span class="nav-hint" id="step3Hint">Bitte wähle genau 2 aus. (0/2)</span>
+          <span class="nav-hint" id="step3Hint">Bitte wähle mindestens eine Option oder ergänze im Freitextfeld.</span>
         </div>
       </div>
 
@@ -1305,9 +1407,12 @@ a { color: var(--color-primary); }
   var state = {
     currentStep: 1,
     answers: {
-      ausbildung: null,
+      ausbildung: [],
+      ausbildungFreitext: "",
       situation: null,
+      situationFreitext: "",
       priorities: [],
+      prioritiesFreitext: "",
       kontakt: { vorname: "", nachname: "", telefon: "", email: "" },
       optionalMessage: ""
     }
@@ -1364,6 +1469,36 @@ a { color: var(--color-primary); }
     if (btn) btn.disabled = !enabled;
   }
 
+  function updateStep1NextBtn() {
+    var hasOption = state.answers.ausbildung.length > 0;
+    var hasText = state.answers.ausbildungFreitext.trim().length > 0;
+    setNextBtn(1, hasOption || hasText);
+  }
+
+  function updateStep2NextBtn() {
+    var hasOption = !!state.answers.situation;
+    var hasText = state.answers.situationFreitext.trim().length > 0;
+    setNextBtn(2, hasOption || hasText);
+  }
+
+  function updateStep3NextBtn() {
+    var count = state.answers.priorities.length;
+    var hasText = state.answers.prioritiesFreitext.trim().length > 0;
+    var ok = count > 0 || hasText;
+    setNextBtn(3, ok);
+    if (step3Hint) {
+      if (ok) {
+        step3Hint.textContent = count > 0
+          ? 'Danke — du kannst weiter. (' + count + ' ausgewählt)'
+          : 'Danke — du kannst weiter.';
+        step3Hint.classList.add('ok');
+      } else {
+        step3Hint.textContent = 'Bitte wähle mindestens eine Option oder ergänze im Freitextfeld.';
+        step3Hint.classList.remove('ok');
+      }
+    }
+  }
+
   $$('.step').forEach(function(stepEl) {
     var stepNum = parseInt(stepEl.getAttribute('data-step'), 10);
     var options = $$('.option', stepEl);
@@ -1382,36 +1517,29 @@ a { color: var(--color-primary); }
           opt.classList.add('selected');
           opt.setAttribute('aria-checked', 'true');
 
-          if (stepNum === 1) {
-            state.answers.ausbildung = val;
-            setNextBtn(1, true);
-          } else if (stepNum === 2) {
+          if (stepNum === 2) {
             state.answers.situation = val;
-            setNextBtn(2, true);
+            updateStep2NextBtn();
           }
         } else {
-          var idx = state.answers.priorities.indexOf(val);
+          var targetArr;
+          if (stepNum === 1) targetArr = state.answers.ausbildung;
+          else if (stepNum === 3) targetArr = state.answers.priorities;
+          else return;
+
+          var idx = targetArr.indexOf(val);
           if (idx > -1) {
-            state.answers.priorities.splice(idx, 1);
+            targetArr.splice(idx, 1);
             opt.classList.remove('selected');
             opt.setAttribute('aria-checked', 'false');
           } else {
-            if (state.answers.priorities.length >= 2) return;
-            state.answers.priorities.push(val);
+            targetArr.push(val);
             opt.classList.add('selected');
             opt.setAttribute('aria-checked', 'true');
           }
-          var exact = state.answers.priorities.length === 2;
-          setNextBtn(3, exact);
-          if (step3Hint) {
-            if (exact) {
-              step3Hint.textContent = 'Perfekt — du kannst weiter.';
-              step3Hint.classList.add('ok');
-            } else {
-              step3Hint.textContent = 'Bitte wähle genau 2 aus. (' + state.answers.priorities.length + '/2)';
-              step3Hint.classList.remove('ok');
-            }
-          }
+
+          if (stepNum === 1) updateStep1NextBtn();
+          else if (stepNum === 3) updateStep3NextBtn();
         }
       }
 
@@ -1424,6 +1552,30 @@ a { color: var(--color-primary); }
       });
     });
   });
+
+  var ausbildungFreitext = $('#ausbildung-freitext');
+  if (ausbildungFreitext) {
+    ausbildungFreitext.addEventListener('input', function() {
+      state.answers.ausbildungFreitext = ausbildungFreitext.value;
+      updateStep1NextBtn();
+    });
+  }
+
+  var situationFreitext = $('#situation-freitext');
+  if (situationFreitext) {
+    situationFreitext.addEventListener('input', function() {
+      state.answers.situationFreitext = situationFreitext.value;
+      updateStep2NextBtn();
+    });
+  }
+
+  var prioritaetenFreitext = $('#prioritaeten-freitext');
+  if (prioritaetenFreitext) {
+    prioritaetenFreitext.addEventListener('input', function() {
+      state.answers.prioritiesFreitext = prioritaetenFreitext.value;
+      updateStep3NextBtn();
+    });
+  }
 
   $$('button[data-next]').forEach(function(btn) {
     btn.addEventListener('click', function() {
@@ -1493,12 +1645,15 @@ a { color: var(--color-primary); }
 
   var WEBHOOK_URL = 'https://hook.eu1.make.com/81v5a5lwm55ch9db61l7l7jw89wg50xq';
 
-  function calcBewertung(ausbildung, situation) {
-    if (ausbildung === 'nein') return 'Ungeeignet';
-    if (ausbildung === 'ja') {
-      if (situation === 'zeichner' || situation === 'architekt' || situation === 'techniker') return 'Geeignet';
-      return 'Prüfen';
-    }
+  function calcBewertung(ausbildungArr, ausbildungFree, situation, situationFree) {
+    var relevantSet = { zeichner: 1, techniker: 1, architekt: 1 };
+    var hasRelevantEducation = (ausbildungArr || []).some(function(v) { return relevantSet[v]; });
+    var hasAnyEducation = (ausbildungArr && ausbildungArr.length > 0) || (ausbildungFree && ausbildungFree.trim().length > 0);
+
+    if (!hasAnyEducation) return 'Prüfen';
+
+    if (hasRelevantEducation && (situation === 'zeichner' || situation === 'architekt' || situation === 'techniker')) return 'Geeignet';
+    if (hasRelevantEducation) return 'Geeignet';
     return 'Prüfen';
   }
 
@@ -1518,14 +1673,24 @@ a { color: var(--color-primary); }
     var optField = $('#optional-message');
     state.answers.optionalMessage = optField ? optField.value.trim() : '';
 
-    var bewertung = calcBewertung(state.answers.ausbildung, state.answers.situation);
+    var bewertung = calcBewertung(
+      state.answers.ausbildung,
+      state.answers.ausbildungFreitext,
+      state.answers.situation,
+      state.answers.situationFreitext
+    );
+
+    var ausbildungLabels = {
+      zeichner: 'Zeichner:in (EFZ)',
+      techniker: 'Techniker:in',
+      architekt: 'Architekt:in'
+    };
 
     var situationLabels = {
       zeichner: 'Zeichner:in',
       architekt: 'Architekt:in',
       techniker: 'Techniker:in',
-      einsteiger: 'Berufseinsteiger:in',
-      wechsel: 'Branchenwechsel'
+      einsteiger: 'Berufseinsteiger:in'
     };
 
     var priorityLabels = {
@@ -1535,15 +1700,35 @@ a { color: var(--color-primary); }
       abwechslung: 'Abwechslungsreiche Aufgaben'
     };
 
+    var ausbildungList = state.answers.ausbildung.map(function(v) { return ausbildungLabels[v] || v; });
+    if (state.answers.ausbildungFreitext.trim()) {
+      ausbildungList.push('Freitext: ' + state.answers.ausbildungFreitext.trim());
+    }
+
+    var prioritaetenList = state.answers.priorities.map(function(p) { return priorityLabels[p] || p; });
+    if (state.answers.prioritiesFreitext.trim()) {
+      prioritaetenList.push('Freitext: ' + state.answers.prioritiesFreitext.trim());
+    }
+
+    var situationText = situationLabels[state.answers.situation] || '';
+    if (state.answers.situationFreitext.trim()) {
+      situationText = situationText
+        ? situationText + ' — Freitext: ' + state.answers.situationFreitext.trim()
+        : 'Freitext: ' + state.answers.situationFreitext.trim();
+    }
+
     var payload = {
       name: state.answers.kontakt.vorname + ' ' + state.answers.kontakt.nachname,
       vorname: state.answers.kontakt.vorname,
       nachname: state.answers.kontakt.nachname,
       email: state.answers.kontakt.email,
       telefon: state.answers.kontakt.telefon,
-      ausbildung: state.answers.ausbildung === 'ja' ? 'Ja' : 'Nein',
-      situation: situationLabels[state.answers.situation] || state.answers.situation || '',
-      prioritaeten: state.answers.priorities.map(function(p) { return priorityLabels[p] || p; }).join(', '),
+      ausbildung: ausbildungList.join(', '),
+      ausbildungFreitext: state.answers.ausbildungFreitext.trim(),
+      situation: situationText,
+      situationFreitext: state.answers.situationFreitext.trim(),
+      prioritaeten: prioritaetenList.join(', '),
+      prioritaetenFreitext: state.answers.prioritiesFreitext.trim(),
       optionalMessage: state.answers.optionalMessage,
       bewertung: bewertung,
       submittedAt: new Date().toISOString()
@@ -1601,6 +1786,62 @@ a { color: var(--color-primary); }
   form.addEventListener('submit', function(e) { e.preventDefault(); });
 
   updateProgress();
+})();
+
+/* Dein Aufgabenbereich — fade rotation */
+(function() {
+  'use strict';
+  var el = document.getElementById('heroTaskText');
+  var dotsEl = document.getElementById('heroTaskDots');
+  if (!el) return;
+
+  var tasks = [
+    'Erarbeiten von Vorprojekten, Projektierungen und Ausführungsplänen.',
+    'Koordination mit Fachplaner:innen, Ämtern und externen Unternehmen.',
+    'Je nach Erfahrung und Wunsch übernimmst du mehr oder weniger Verantwortung im Projekt.'
+  ];
+
+  var HOLD_MS  = 4500;
+  var FADE_MS  = 600;
+  var idx = 0;
+
+  function setDot(i) {
+    if (!dotsEl) return;
+    dotsEl.querySelectorAll('.htd').forEach(function(d, n) {
+      d.classList.toggle('htd-active', n === i);
+    });
+  }
+
+  function showTask() {
+    el.textContent = tasks[idx];
+    setDot(idx);
+    el.style.transition = 'none';
+    el.style.opacity = '0';
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        el.style.transition = 'opacity ' + (FADE_MS / 1000) + 's ease';
+        el.style.opacity = '1';
+        setTimeout(fadeOut, HOLD_MS);
+      });
+    });
+  }
+
+  function fadeOut() {
+    el.style.transition = 'opacity ' + (FADE_MS / 1000) + 's ease';
+    el.style.opacity = '0';
+    setTimeout(function() {
+      idx = (idx + 1) % tasks.length;
+      showTask();
+    }, FADE_MS);
+  }
+
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.textContent = tasks[0];
+    el.style.opacity = '1';
+    return;
+  }
+
+  showTask();
 })();
 </script>
 
